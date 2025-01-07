@@ -1,4 +1,0 @@
-javac helloword.java
-java HelloWorld.java
-
-javac命令的作用是先将.java文件进行编译，这个编译的过程你可以理解为是将java语言写的东西转换为jvm底层可以识别的代码，然后再由jvm将它转换为操作系统可以识别的机器代码，从而供操作系统的CPU去执行。
