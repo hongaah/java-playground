@@ -22,7 +22,7 @@ Java 8 的新日期/时间 API 比早期的 java.util 包更好，因为它提�
 
 旧的日期类型包括Date和Calendar，它们可以用于表示日期和时间。Date类是Java中最常用的日期类型，它可以让我们计算出任意日期之间的时间差。Calendar类可以让我们计算出任意日期之间的天数或月数。
 
-Date类相关代码案例
+### Date类相关代码案例
 
 ```java
 // 获取当前时间
@@ -52,6 +52,20 @@ if(date1.compareTo(date2) > 0) {
     //date1比date2早
 }
 
+// 使用setTime()方法设置一个时间点，1970年1月1日08:00:00 GMT
+date1.setTime(28800000);
+// 使用before()方法比较两个时间点
+boolean beforeResult = date1.before(date2);
+System.out.println("设置的时间点在1970年1月1日之前：" + beforeResult);
+
+// 使用after()方法比较两个时间点
+boolean afterResult = date1.after(date2);
+System.out.println("设置的时间点在1970年1月1日之后：" + afterResult);
+
+// 使用equals()方法比较两个时间点
+boolean equalResult = date1.equals(date2);
+System.out.println("设置的时间点与当前时间相等：" + equalResult);
+
 // 时间转换
 Date date = new Date();
 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -67,6 +81,75 @@ date = calendar.getTime();
 // 获取当前时区
 TimeZone timeZone = TimeZone.getDefault();
 System.out.println(timeZone.getDisplayName());
+```
+
+### Calendar类介绍
+
+Java中的Calendar类是一个抽象类，用于操作日期和时间。它是对Date类的封装，提供了更加丰富的操作方法。Calendar类的主要作用是计算日期和时间之间的差值，并提供了一些方法得到年、月、日、时、分等时间信息。
+
+Calendar类提供了很多有用的API，以下是其中一些常用的API：
+
+```java
+package com.sise.lession93;
+
+import java.util.*;
+
+public class CalendarExample {
+    public static void main(String[] args) {
+        // 创建一个表示当前时间的Calendar对象
+        Calendar calendar = Calendar.getInstance();
+        Date date = new Date(); // 创建一个Date对象
+
+        // 输出年份、月份和日期
+        System.out.println("年份：" + calendar.get(Calendar.YEAR));
+        System.out.println("月份：" + (calendar.get(Calendar.MONTH) + 1));
+        System.out.println("日期：" + calendar.get(Calendar.DAY_OF_MONTH));
+        System.out.println("时，24小时制：" + calendar.get(Calendar.HOUR_OF_DAY));
+        System.out.println("分：" + calendar.get(Calendar.MINUTE));
+        System.out.println("秒：" + calendar.get(Calendar.SECOND));
+
+        // 设置月份为10，日期为15
+        calendar.set(Calendar.MONTH, 9); // 月份从0开始计算，所以9表示10月
+        calendar.set(Calendar.DAY_OF_MONTH, 15);
+
+        // 输出修改后的日期
+        System.out.println("修改后的日期：" + calendar.getTime());
+        
+        // 对日期进行加减
+        calendar.add(Calendar.DAY_OF_MONTH, 3); // 加3天
+        System.out.println("加3天后的日期：" + calendar.getTime());
+        calendar.add(Calendar.MONTH, -2); // 减2个月
+        System.out.println("减2个月后的日期：" + calendar.getTime());
+
+        if (calendar.before(date)) {
+            System.out.println("今天在该日期之前");
+        } else {
+            System.out.println("今天在该日期之后");
+        }
+    }
+}
+
+```
+
+### SimpleDateFormat类的示例代码
+
+SimpleDateFormat 是 Java 中用于日期格式化和解析的类。它允许定义日期格式以将日期对象转换为字符串并将字符串转换回日期对象。
+
+```java
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class SimpleDateFormatExample {
+    public static void main(String[] args) throws Exception {
+        String dateString = "2021-01-31";
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
+        Date date = format.parse(dateString);
+        System.out.println("Date object: " + date.toString());
+
+        String formattedDate = format.format(date);
+        System.out.println("Formatted date string: " + formattedDate);
+    }
+}
 
 ```
 
@@ -82,20 +165,51 @@ if (firstDateTime.isBefore(secondDateTime)) {
   System.out.println("firstDateTime is before secondDateTime");
 }
 
-// 使用 LocalDateTime 获取当前时间
+// now()：静态方法，用于获取当前系统日期。
 LocalDateTime now = LocalDateTime.now();
 System.out.println("Current DateTime: " + now); 
 
-// 使用 LocalDateTime 获取指定日期时间
+// of(int year, int month, int dayOfMonth)：静态方法，用于创建指定日期的LocalDate对象。
 LocalDateTime specificDate = LocalDateTime.of(2021, Month.JANUARY, 1, 10, 30);
 System.out.println("Specific DateTime: " + specificDate);
 
+// getYear()、getMonthValue()和getDayOfMonth()：获取日期的年、月、日。
+int year = today.getYear();
+int month = today.getMonthValue();
+int dayOfMonth = today.getDayOfMonth();
+
 // 使用 LocalDateTime 对日期和时间进行加减
-LocalDateTime dateTime = LocalDateTime.now();
-// 增加一天
-LocalDateTime dateTimePlus = dateTime.plusDays(1);
-System.out.println("Plus one day: " + dateTimePlus);
-// 减少一个小时
-LocalDateTime dateTimeMinus = dateTime.minusHours(1);
-System.out.println("Minus one hour: " + dateTimeMinus);
+LocalDateTime today = LocalDateTime.now();
+
+// plusDays()、plusMonths()和plusYears()：将日期加上指定的天数、月数、年数。
+LocalDate tomorrow = today.plusDays(1);
+LocalDate thisMonth = today.plusMonths(0);
+LocalDate nextYear = today.plusYears(1);
+
+// minusDays()、minusMonths()和minusYears()：将日期减去指定的天数、月数、年数。
+LocalDate yesterday = today.minusDays(1);
+LocalDate lastMonth = today.minusMonths(1);
+LocalDate lastYear = today.minusYears(1);
+
+// isBefore()和isAfter()：用于比较当前日期是否在指定日期之前或之后。
+LocalDate date1 = LocalDate.of(2022, 10, 1);
+LocalDate date2 = LocalDate.of(2022, 10, 2);
+boolean isBefore = date1.isBefore(date2); // 返回trueboolean isAfter = date1.isAfter(date2); // 返回false
+
+// format()：将日期格式化为指定格式的字符串。
+String formattedDate = today.format(DateTimeFormatter.ofPattern("yyyy/MM/dd")); // 2022/10/03
 ```
+
+## 使用技巧
+
+在使用Java中的日期类时，有以下一些技巧可以提高开发效率和避免常见错误：
+
+使用 LocalDate 而不是 Date：Date 是Java早期版本中的日期类，不仅在处理时区和日期格式方面存在问题，而且通常需要使用 SimpleDateFormat 类进行日期格式化和解析。相反，Java 8 引入了新的日期和时间API，其中包括 LocalDate 类。LocalDate 类提供了一种简单且线程安全的方式来表示日期，它还可以轻松进行格式化和解析，而不需要使用其他类。
+
+使用预定义格式解析和格式化日期字符串：在使用 SimpleDateFormat 进行格式化和解析日期时，通常需要自己定义日期格式。这种方式容易出错且容易导致代码的可读性下降。Java 8 中新增了 DateTimeFormatter类，该类提供了预定义的日期格式以及自定义的格式化和解析。使用 DateTimeFormatter 类进行日期格式化和解析可以减少犯错的机会。
+
+使用 Calendar 时要注意月份的索引从0开始：在使用 Calendar 类获取月份时，月份的索引从 0 开始，即 0 表示 1 月，1 表示 2 月，以此类推。这可能会导致混淆和错误，因此建议使用 LocalDate 代替。
+
+使用 Period 和 Duration 进行日期和时间的计算：Period 和 Duration 类分别用于计算日期和时间之间的差异。这些类提供了易于使用且灵活的 API，可用于计算日期之间的差异（例如年、月和天）以及时间之间的差异（例如小时，分钟和秒）。
+
+总结来说，使用 Java 中的日期类时，建议使用新的日期和时间类LocalDate，避免使用过时的Date和Calendar类。
