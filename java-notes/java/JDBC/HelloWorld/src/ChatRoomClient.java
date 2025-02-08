@@ -24,7 +24,7 @@ public class ChatRoomClient {
                     }
                 }
             }).start();
-;
+
             // 向服务器发送消息
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             Scanner scanner = new Scanner(System.in);
