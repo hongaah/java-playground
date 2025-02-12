@@ -1,0 +1,7 @@
+#开发模块
+server:
+  port: 8081
+spring:
+  config:
+    activate:
+      on-profile: dev

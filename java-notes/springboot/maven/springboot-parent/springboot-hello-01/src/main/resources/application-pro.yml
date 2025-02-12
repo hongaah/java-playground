@@ -1,0 +1,7 @@
+#在线模块
+server:
+  port: 80
+spring:
+  config:
+    activate:
+      on-profile: pro

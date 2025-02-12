@@ -1,0 +1,8 @@
+# 确定哪一个模块为活动模块
+spring:
+  profiles:
+    active: pro
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html

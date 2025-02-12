@@ -1,0 +1,32 @@
+# 确定哪一个模块为活动模块
+spring:
+  profiles:
+    active: pro
+
+---
+#开发模块
+server:
+  port: 8088
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+---
+#测试模块
+server:
+  port: 8089
+spring:
+  config:
+    activate:
+      on-profile: test
+
+---
+#在线模块
+server:
+  port: 8099
+spring:
+  config:
+    activate:
+      on-profile: pro
+
