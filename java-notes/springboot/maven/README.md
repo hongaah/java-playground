@@ -268,3 +268,76 @@ public class MyBean {
 
 ### 框架集成
 
+#### 集成 redis
+
+集成 redis 的步骤：
+
+1. 在 `pom.xml` 文件中添加以下依赖：
+    ```xml
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-redis</artifactId>
+    </dependency>
+    ```
+
+2. 在 `application.yml` 文件中配置：
+    ```yaml
+    spring:
+      data:
+        redis:
+          host: 127.0.0.1
+          port: 6379
+    ```
+
+3. 配置 RedisTemplate 使用字符串序列化器，避免 Redis 中显示乱码
+      ```java
+      package cn.itsource.springboothello01.config;
+
+      @Configuration
+      public class RedisConfig {
+          @Bean
+          public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory connectionFactory) {
+              RedisTemplate<String, String> template = new RedisTemplate<>();
+              template.setConnectionFactory(connectionFactory);
+              // 设置键的序列化器
+              template.setKeySerializer(new StringRedisSerializer());
+              // 设置值的序列化器
+              template.setValueSerializer(new StringRedisSerializer());
+              return template;
+          }
+      }
+    ```
+
+4. 引用 RedisTemplate：
+    在需要使用 RedisTemplate 的地方，可以通过 @Autowired 注解将其注入到类中。
+    @Autowired：自动注入 RedisTemplate 实例，Spring 会从容器中找到 RedisTemplate Bean 并注入。
+
+    例如，在 RedisController 中引用 RedisTemplate：
+    ```java
+    @RestController
+    @RequestMapping("/redis")
+    public class RedisController {
+
+        @Autowired
+        private RedisTemplate<String, String> redisTemplate;
+
+        @RequestMapping("/set")
+        public String testSet() {
+            redisTemplate.opsForValue().set("name", "李四");
+            return "set done";
+        }
+
+        @RequestMapping("/get")
+        public String testGet() {
+            String name = redisTemplate.opsForValue().get("name");
+            System.out.println("/REDIS GET " + name);
+            return "get done";
+        }
+    }
+    ```
+
+5. 验证配置是否生效
+    启动 Spring Boot 应用后，可以通过以下方式验证配置是否生效：
+    调用 /redis/set 接口，将数据存储到 Redis。
+    调用 /redis/get 接口，从 Redis 中获取数据。
+    检查 Redis 中存储的键和值是否为字符串格式，且无乱码。

@@ -39,7 +39,7 @@ spring.devtools.restart.enabled=true
 
 以下三种选一个试下
 ✅ 配置 idea: 右键应用 run 编辑 -> 运行/调试配置窗口 修改选项 执行“更新”操作时 -> 更新类和资源（热交换类，如果失败则更新触发器文件（编辑器失焦就重启服务））。
-✅ 用快捷键 alt f9 重新编译
+✅ 用快捷键 ctrl f9 重新编译
 ✅ 在pom.xml中加上热部署插件
 ```xml :pom.xml
 <dependency>
