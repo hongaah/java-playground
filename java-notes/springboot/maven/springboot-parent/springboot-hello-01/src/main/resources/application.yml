@@ -12,4 +12,16 @@ spring:
       host: 127.0.0.1
       port: 6379
 
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # serverTimezone=UTC 配置时区的，时区对应不上会报错
+    # 本地的可以用///表示
+    url: jdbc:mysql:///jdbc?serverTimezone=UTC
+    username: root
+    password: hazel
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*Mapper.xml # mapper配置文件的路径，这里匹配所有以Mapper.xml结尾的文件
+  type-aliases-package: cn.itsource.springboothello01.domain # domain的全路径
+  # config-location: # 指定mybatis的核心配置文件
 

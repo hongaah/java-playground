@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 是写的查询数据库接口的全路径，表示当前xml和那个文件的映射，id 就是 对应方法名，resultType 是别名 -->
+<mapper namespace="cn.itsource.springboothello01.mapper.UserXmlMapper">
+    <select id="findAll" resultType="user">
+        select * from user
+    </select>
+</mapper>

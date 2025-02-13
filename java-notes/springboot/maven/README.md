@@ -270,7 +270,7 @@ public class MyBean {
 
 #### 集成 redis
 
-集成 redis 的步骤：
+集成 redis 的步骤：🌰：java-notes\springboot\maven\springboot-parent\springboot-hello-01
 
 1. 在 `pom.xml` 文件中添加以下依赖：
     ```xml
@@ -341,3 +341,129 @@ public class MyBean {
     调用 /redis/set 接口，将数据存储到 Redis。
     调用 /redis/get 接口，从 Redis 中获取数据。
     检查 Redis 中存储的键和值是否为字符串格式，且无乱码。
+
+#### 整合 MyBatis 和 Mysql
+
+- 引入 mybatis 起步依赖, 添加 mysql 驱动
+- 编写 DataSource 和 MyBatis 相关配置
+- 定义表和实体类
+- 编写 dao 和 mapper 文件/纯注解开发
+- 测试
+
+集成步骤：🌰：java-notes\springboot\maven\springboot-parent\springboot-hello-01
+
+1. 在 `pom.xml` 文件中添加以下依赖：
+    ```xml
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <scope>runtime</scope>
+        <version>8.0.32</version>
+    </dependency>
+    <dependency>
+        <groupId>org.mybatis.spring.boot</groupId>
+        <artifactId>mybatis-spring-boot-starter</artifactId>
+        <version>3.0.3</version>
+    </dependency>
+    ```
+
+2. 在 `application.yml` 文件中配置：
+    ```yaml
+    spring:  datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      # serverTimezone=UTC 配置时区的，时区对应不上会报错
+      # 本地的可以用///表示
+      url: jdbc:mysql:///jdbc?serverTimezone=UTC
+      username: root
+      password: hazel
+
+    mybatis:
+      mapper-locations: classpath:mybatis/mapper/*Mapper.xml # mapper配置文件的路径，这里匹配所有以Mapper.xml结尾的文件
+      type-aliases-package: cn.itsource.springboothello01.domain # domain的全路径
+      # config-location: # 指定mybatis的核心配置文件
+    ```
+
+3. 新建一个 User 类，添加用户名和密码的属性，在文件中右键，选择【Gererate】， 选择【Getter and Getter】，勾选上对应的属性，快速创建 getter、setter、toString 方法。
+      ```java
+      package cn.itsource.springboothello01.domain;
+
+      public class User {
+          private int id;
+          private String name;
+          private String password;
+      }
+    ```
+
+4. 方法一：mapper 方式,调用数据库，mapper 的作用是作为单独的一层，写一些数据库相关操作的映射
+
+    ```java
+    package cn.itsource.springboothello01.mapper;
+
+    @Mapper
+    @Repository
+    public interface UserMapper {
+
+        @Select("select * from user")
+        public List<User> findAll();
+    }
+
+    ```
+
+5. 方法二：mapperXml 方式,调用数据库
+    ```java
+    package cn.itsource.springboothello01.mapper;
+
+    @Mapper
+    @Repository
+    public interface UserXmlMapper {
+        public List<User> findAll();
+    }
+    ```
+
+然后我们写一个xml文件，里边有我们需要的sql语句，以及对应方法的映射，我们通常把这种配置文件放在resource文件夹下：
+
+```xml :src/main/resources/mybatis/mapper/UserMapper.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace 是写的查询数据库接口的全路径，表示当前xml和那个文件的映射，id 就是 对应方法名，resultType 是别名 -->
+<mapper namespace="cn.itsource.springboothello01.mapper.UserXmlMapper">
+    <select id="findAll" resultType="user">
+        select * from user
+    </select>
+</mapper>
+```
+
+5. 测试配置是否生效
+
+```java
+package cn.itsource.springboothello01;
+
+import cn.itsource.springboothello01.domain.User;
+import cn.itsource.springboothello01.mapper.UserMapper;
+import cn.itsource.springboothello01.mapper.UserXmlMapper;
+
+@SpringBootTest
+public class MybatisUserTest {
+
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private UserXmlMapper userXmlMapper;
+
+    @Test
+    public void testUserMap () {
+        List<User> list = userMapper.findAll();
+
+        System.out.print(list);
+    }
+
+    @Test
+    public void testUserMapXml () {
+        List<User> list = userXmlMapper.findAll();
+        System.out.println(list);
+        System.out.println("测试通过");
+    }
+}
+```
+
