@@ -6,6 +6,8 @@
 @Autowired：就相当于把指定类型的 Bean 注入到指定的字段中。和 XML 配置相比，@Autowired 大幅简化了注入，因为它不但可以写在 set() 方法上，还可以直接写在字段上，甚至可以写在构造方法中。我们一般把@Autowired 写在字段上，通常使用package权限的字段，便于测试。如果 @Autowired 应用到 List、Map、Set 等集合类型，Spring 会自动把所有匹配的 Bean 注入到这个集合中。
 @Autowired(required = false)： 当我们标记了一个 @Autowired 后，Spring 如果没有找到对应类型的 Bean，它会抛出 NoSuchBeanDefinitionException 异常。表示这个 Bean 是可选的，如果找不到，就忽略。
 @Autowired： 自动注入 RedisTemplate 实例，Spring 会从容器中找到 RedisTemplate Bean 并注入。
+@Autowired 注解报错的原因是：IUserServiceImpl 类没有被 Spring 容器管理。Spring 要求使用 @Autowired 进行依赖注入的类必须是一个 Spring Bean，而 Spring Bean 需要通过注解（如 @Component、@Service、@Repository 等）标记
+
 
 @Configuration：表示它是一个配置类。SpringBoot推荐给容器中添加组件的方式，推荐使用全注解的方式 @Configuration
 

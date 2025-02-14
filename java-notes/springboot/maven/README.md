@@ -390,7 +390,7 @@ public class MyBean {
       public class User {
           private int id;
           private String name;
-          private String password;
+          private int age;
       }
     ```
 
@@ -417,6 +417,7 @@ public class MyBean {
     @Repository
     public interface UserXmlMapper {
         public List<User> findAll();
+        void save(User user);
     }
     ```
 
@@ -430,26 +431,99 @@ public class MyBean {
     <select id="findAll" resultType="user">
         select * from user
     </select>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into user (name, age) values (#{name}, #{age})
+    </insert>
 </mapper>
 ```
 
-5. 测试配置是否生效
+5. 添加 service 层
+
+```java
+package cn.itsource.springboothello01.service;
+
+public interface IUserService {
+    List<User> findAll();
+    void save(User user);
+}
+```
+
+```java
+package cn.itsource.springboothello01.service.impl;
+
+@Service
+@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+public class IUserServiceImpl implements IUserService {
+    @Autowired
+    private UserXmlMapper mapper;
+
+    @Override
+    public List<User> findAll() {
+        return mapper.findAll();
+    }
+
+    @Override
+    @Transactional
+    public void save(User user) {
+        mapper.save(user);
+    }
+}
+
+```
+
+6. Controller 层
+
+```java
+package cn.itsource.springboothello01.controller;
+
+@RestController
+@RequestMapping("/testMyBatis/user")
+public class UserMapContoller {
+    @Autowired
+    private IUserService userService;
+
+    @RequestMapping("/findAll")
+    public List<User> findAll() {
+        return userService.findAll();
+    }
+
+    // GET /save1?name=赵五&age=20
+    // Spring 会自动将 name 和 age 参数映射到 User 对象的 name 和 age 属性
+    @RequestMapping("/save1")
+    public String save(User user) {
+        userService.save(user);
+        return "保存成功";
+    }
+
+    // GET /save2?name=1&age=1
+    @RequestMapping("/save2")
+    public String save(@RequestParam("name") String name, @RequestParam("age") Integer age) {
+        User user = new User();
+        user.setName(name);
+        user.setAge(age);
+
+        userService.save(user);
+        return "保存成功";
+    }
+}
+```
+
+7. 测试配置是否生效
 
 ```java
 package cn.itsource.springboothello01;
 
-import cn.itsource.springboothello01.domain.User;
-import cn.itsource.springboothello01.mapper.UserMapper;
-import cn.itsource.springboothello01.mapper.UserXmlMapper;
-
 @SpringBootTest
 public class MybatisUserTest {
-
     @Autowired
     private UserMapper userMapper;
 
     @Autowired
     private UserXmlMapper userXmlMapper;
+
+    @Autowired
+    private IUserService userService;
 
     @Test
     public void testUserMap () {
@@ -464,6 +538,36 @@ public class MybatisUserTest {
         System.out.println(list);
         System.out.println("测试通过");
     }
+
+    @Test
+    public void testAddUserMapXml () {
+        try {
+            // 使用变量存储测试数据，方便后续修改
+            String userName = "张三";
+            Integer userAge = 23;
+
+            User user = new User();
+            user.setName(userName);
+            user.setAge(userAge);
+            userXmlMapper.save(user);
+
+            List<User> list = userXmlMapper.findAll();
+            System.out.println("用户：" + list);
+        } catch (Exception e) {
+            // 捕获异常并输出错误信息
+            fail("测试失败，原因：" + e);
+        }
+    }
+
+    @Test
+    public void testIUserService(){
+        User user = new User();
+        user.setName("李四");
+        user.setAge(24);
+        userService.save(user);
+        userService.findAll().forEach(item -> System.out.println(item));
+    }
 }
+
 ```
 

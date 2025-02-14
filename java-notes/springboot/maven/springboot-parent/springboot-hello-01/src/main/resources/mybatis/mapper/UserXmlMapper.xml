@@ -5,4 +5,8 @@
     <select id="findAll" resultType="user">
         select * from user
     </select>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        insert into user (name, age) values (#{name}, #{age})
+    </insert>
 </mapper>
