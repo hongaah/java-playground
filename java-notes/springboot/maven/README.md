@@ -119,6 +119,8 @@ java -jar .\springboot-hello-01\target\springboot-hello-01-0.0.1-SNAPSHOT.jar
 - application.properties
 - application.yml
 
+配置文件优先级： .properties>.yml>yaml
+
 ```yml :application.yml
 server:
   port: 8088
@@ -126,12 +128,7 @@ server:
     path: /haha
 ```
 
-字符串：
-字符串不需要加引号
-双引号不会对串中转义字符进行转义
-  name: "zhangsan \n lisi"：输出；zhangsan 换行 lisi
-单引号转义特殊字符
-  name: "zhangsan \n lisi"：输出；zhangsan \n lisi
+[语法](./YAML语法.md)
 
 ### 多环境支持方案
 
