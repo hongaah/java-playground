@@ -62,6 +62,7 @@ private String name2
 private String name3
 
 // 2. 环境对象： Environment
+// 需要导入 org.springframework.core.env.Environment 包
 @Autowired
 private Environment env
 
@@ -81,20 +82,33 @@ public class Person {
         return name
     }
 }
+
+// 3.1 
+// 主类上要加 @EnableConfigurationProperties，这样在 @SpringBootApplication 环境下把这些都配置好了，因此 @ConfigurationProperties 才有效。也因此使用SpringBootTest启动时，没有配置就会无效。详见：https://juejin.cn/post/7254384256280035388#heading-4
+```java
+package cn.itsource.springboothello01;
+
+@EnableConfigurationProperties
+@SpringBootApplication
+public class SpringbootHello01Application {
+	public static void main(String[] args) {
+		SpringApplication.run(SpringbootHello01Application.class, args);
+	}
+}
 ```
 
 ## Profile
 
 profile 是用来完成不同环境下，配置动态切换功能的多环境支持方案
 
-1. 多profile 文件方式： 提供多个配置文件， 每个代表一种环境，例如：
+1. 多 profile 文件方式： 提供多个配置文件， 每个代表一种环境，例如：
   application-dev.yml 开发环境
   application-test.yml 测试环境
   application-pro.yml 生产环境
 
   默认情况下，SpringBoot 会加载主配置文件，即 application.yml。在主文件application.yml通过设置 spring.profiles.active = dev 激活
 
-2. yml多文档方式，写在一个文件即可，使用---分割不同配置
+2. yml 多文档方式，写在一个文件即可，使用---分割不同配置
 
 ```yaml
 # 确定哪一个模块为活动模块

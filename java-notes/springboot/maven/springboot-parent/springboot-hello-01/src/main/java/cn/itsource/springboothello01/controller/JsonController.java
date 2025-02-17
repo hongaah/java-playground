@@ -1,6 +1,8 @@
 package cn.itsource.springboothello01.controller;
 
+import cn.itsource.springboothello01.MyPerson;
 import cn.itsource.springboothello01.entity.Employee;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Arrays;
@@ -12,10 +14,13 @@ import java.util.List;
 @RequestMapping("/json")
 public class JsonController {
 
-    // 返回普通数据
+    @Autowired
+    MyPerson myPerson;
+
+    // 返回配置文件设置的值
     @RequestMapping("/01")
     public String json01() {
-        return "hello json";
+        return myPerson.getName();
     }
 
     // 返回对象
