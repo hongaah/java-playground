@@ -1,8 +1,10 @@
 package cn.itsource.springboothello01;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+@PropertySource("classpath:application.person.properties")
 @Component
 @ConfigurationProperties(prefix = "person") // 表示 yaml 中的 person 配置和类中的属性一一对应
 public class MyPerson {

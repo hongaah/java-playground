@@ -49,9 +49,18 @@ person:
 
 ## 读取配置内容的三种方式
 
+```xml
+<!‐‐导入配置文件处理器，配置文件进行绑定就会有提示‐‐>
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-configuration-processor</artifactId>
+	<optional>true</optional>
+</dependency>
+```
+
 ```java
 
-// 1. @value
+// 第一种 1. @value
 @Value("${name}")
 private String name
 
@@ -61,14 +70,15 @@ private String name2
 @Value("${address[1]}")
 private String name3
 
-// 2. 环境对象： Environment
+// 第二种 2. 环境对象： Environment
 // 需要导入 org.springframework.core.env.Environment 包
 @Autowired
 private Environment env
 
 System.out.print(env.getProperty("person.name"))
 
-// 3. @ConfigurationProperties
+// 第三种 3. @ConfigurationProperties
+@PropertySource("classpath:application.person.properties") // 引入指定的配置文件
 @Component
 @ConfigurationProperties(prefix = "person") // 表示 yaml 中的 person 配置和类中的属性一一对应
 public class Person {
@@ -83,9 +93,8 @@ public class Person {
     }
 }
 
-// 3.1 
-// 主类上要加 @EnableConfigurationProperties，这样在 @SpringBootApplication 环境下把这些都配置好了，因此 @ConfigurationProperties 才有效。也因此使用SpringBootTest启动时，没有配置就会无效。详见：https://juejin.cn/post/7254384256280035388#heading-4
-```java
+// 3.1 主类测试
+// 主类上要加 @EnableConfigurationProperties，这样在 @SpringBootApplication 环境下把这些都配置好了，因此 @ConfigurationProperties 才有效。详见：https://juejin.cn/post/7254384256280035388#heading-4
 package cn.itsource.springboothello01;
 
 @EnableConfigurationProperties
@@ -94,6 +103,21 @@ public class SpringbootHello01Application {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootHello01Application.class, args);
 	}
+}
+
+// 3.2 测试类
+// 测试类要引入主类的配置，才可以使用主类中的配置
+@Import(SpringbootHello01Application.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes=MyPerson.class)
+public class MyPersonTest {
+    @Autowired
+    private MyPerson myPerson;
+
+    @Test
+    public void test01() {
+        System.out.println("MyPersonTest：" + myPerson.getName());
+    }
 }
 ```
 
@@ -154,7 +178,7 @@ spring:
 
 ## 内部加载顺序
 
-Springboot程序启动时，会从以下顺序的优先级加载配置文件
+Springboot 程序启动时，会从以下顺序的优先级加载配置文件
 
 - file:./config/: 当前项目下的/config目录下
 - file:./：当前项目的根目录

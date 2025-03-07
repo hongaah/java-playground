@@ -115,7 +115,7 @@ java -jar .\springboot-hello-01\target\springboot-hello-01-0.0.1-SNAPSHOT.jar
 
 ### SpringBoot 配置文件
 
-默认配置文件会在 resources 中，配置文件有两种(我们任选一种即可)
+默认配置文件会在 resources 中，配置文件有两种(我们任选一种即可)．配置文件放在 src/main/resources目录 或者 类路径/config 下。作用是修改SpringBoot自动配置的默认值。
 - application.properties
 - application.yml
 
