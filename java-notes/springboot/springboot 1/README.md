@@ -1,6 +1,6 @@
-# SpringBoot
+# SpringBoot 简单入门
 
-SpringBoot是使用 maven (注:也可以使用Gradle) 的方式对 Spring 应用开发进行进一步的封装和简化。
+SpringBoot 是使用 maven (注:也可以使用Gradle) 的方式对 Spring 应用开发进行进一步的封装和简化。
 
 - Gradle
 - Maven
