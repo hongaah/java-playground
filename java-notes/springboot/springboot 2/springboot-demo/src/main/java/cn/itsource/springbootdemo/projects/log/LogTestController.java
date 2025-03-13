@@ -5,13 +5,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 日志 slf4j + logback
+ *
+ * logback.xml 配置文件: src/main/resources/logback.xml
+ */
 @RestController
-@RequestMapping("/test")
-public class TestController {
+@RequestMapping("/log")
+public class LogTestController {
 
-    private final static Logger logger = LoggerFactory.getLogger(TestController.class);
+    private final static Logger logger = LoggerFactory.getLogger(LogTestController.class);
 
-    @RequestMapping("/log")
+    @RequestMapping("/test")
     public String testLog() {
         logger.debug("=====测试日志debug级别打印====");
         logger.info("======测试日志info级别打印=====");

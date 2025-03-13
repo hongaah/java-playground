@@ -5,4 +5,13 @@
 
 🌰 springboot返回json格式：<java-notes\springboot\springboot2\springboot-demo\src\main\java\cn\itsource\springbootdemo\projects\json>
 
+springboot:
+@RestController
+@RequestMapping
+@PathVariable
+@RequestParam
+@RequestBody
+
+spring:
+@ResponseBody
 
