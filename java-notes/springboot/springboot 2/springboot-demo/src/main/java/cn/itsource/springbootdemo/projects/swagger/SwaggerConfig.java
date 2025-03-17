@@ -16,9 +16,11 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
+                .openapi("3.0.0")
                 .info(new Info()
                         .title("Spring Boot集成Springdoc OpenAPI 3接口总览")
                         .version("1.0")
                         .description("Spring Boot集成Springdoc OpenAPI 3"));
+
     }
 }

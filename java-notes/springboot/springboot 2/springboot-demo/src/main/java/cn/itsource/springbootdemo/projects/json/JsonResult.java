@@ -43,8 +43,6 @@ public class JsonResult<T> {
         this.code = "0";
         this.msg = msg;
     }
-    // 省略get和set方法
-
 
     public T getData() {
         return data;
