@@ -29,4 +29,13 @@ public class MyBatisUserTest {
         System.out.println("测试通过");
     }
 
+    @Test
+    public void testInsertUser() {
+        User user = new User();
+        user.setName("test");
+        user.setAge(18);
+        Integer result = userMapper.insertUser(user);
+        System.out.println(result);
+    }
+
 }

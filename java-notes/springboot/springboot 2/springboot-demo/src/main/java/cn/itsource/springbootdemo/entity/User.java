@@ -1,8 +1,16 @@
 package cn.itsource.springbootdemo.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class User {
+
+    @Schema(description = "用户id", hidden = true)
     private int id;
+
+    @Schema(description = "用户名")
     private String name;
+
+    @Schema(description = "用户年龄")
     private int age;
 
     public int getId() {
