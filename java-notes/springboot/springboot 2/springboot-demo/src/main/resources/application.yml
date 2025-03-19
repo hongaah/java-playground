@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: springboot-demo
+
+  datasource:
+    url: jdbc:mysql:///jdbc?serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: hazel
+    hikari:
+      maximum-pool-size: 10
+      max-lifetime: 1770000
+
+mybatis:
+  type-aliases-package: cn.itsource.springbootdemo.entity
+  configuration:
+    map-underscore-to-camel-case: true # 开启驼峰命名
+  mapper-locations:
+    - classpath:mapper/*.xml
+
+logging:
+  config: classpath:logback.xml
+  level:
+    cn.itsource.springbootdemo: trace
+
+# 配置微服务的地址
+url:
+  orderUrl: http://localhost:8002
+  userUrl: http://localhost:8003
+  shoppingUrl: http://localhost:8004
+
+springdoc:
+  override-with-generic-response: false

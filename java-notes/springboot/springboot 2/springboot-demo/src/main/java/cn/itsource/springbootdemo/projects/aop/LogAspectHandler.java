@@ -24,7 +24,7 @@ public class LogAspectHandler {
     /**
      * 定义一个切面，拦截 cn.itsource.springbootdemo 包和子包下的所有方法
      */
-    @Pointcut("execution(* cn.itsource.springbootdemo..*.*(..))")
+    @Pointcut("execution(* cn.itsource.springbootdemo.controller..*.*(..))")
     public void pointCut() {}
 
     /**
