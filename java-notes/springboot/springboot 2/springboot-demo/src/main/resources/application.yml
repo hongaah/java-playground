@@ -11,6 +11,17 @@ spring:
       maximum-pool-size: 10
       max-lifetime: 1770000
 
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+    jedis:
+        pool:
+            max-active: 1000
+            max-wait: 2000
+            max-idle: 500
+            min-idle: 50
+
 mybatis:
   type-aliases-package: cn.itsource.springbootdemo.entity
   configuration:
