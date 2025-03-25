@@ -11,6 +11,11 @@ spring:
       maximum-pool-size: 10
       max-lifetime: 1770000
 
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false #关闭缓存，否则会有缓存，导致页面没法及时看到更新后的效果
+
   data:
     redis:
       host: 127.0.0.1

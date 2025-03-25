@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@RestController("transcationUserController")
 @RequestMapping("/transcation")
 @Tag(name = "TranscationControllerApi", description = "Swagger接口Tag")
 public class UserController {
