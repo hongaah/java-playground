@@ -16,6 +16,17 @@ spring:
     suffix: .html
     cache: false #关闭缓存，否则会有缓存，导致页面没法及时看到更新后的效果
 
+  activemq:
+    # activemq url
+    broker-url: tcp://localhost:61616
+    in-memory: true
+    pool:
+      # 如果此处设置为true，需要添加 activemq-pool 的依赖包，否则会自动配置失败，无法注入 JmsMessagingTemplate
+      enabled: false
+  # 发布/订阅消息的消费和点对点不同，订阅消息支持多个消费者一起消费。其次，Spring Boot 中默认的时点对点消息，所以在使用 topic 时，会不起作用，我们需要在配置文件 application.yml 中添加一个配置
+  jms:
+    pub-sub-domain: true
+
   data:
     redis:
       host: 127.0.0.1
