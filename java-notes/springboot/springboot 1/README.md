@@ -568,3 +568,8 @@ public class MybatisUserTest {
 
 ```
 
+### 参考
+
+- [Spring Boot经典入门教程](https://juejin.cn/post/6844904194030174221)
+- [【SpringBoot第二天】springBoot 整合其他框架](https://juejin.cn/post/7043576063762366478)
+- [【SpringBoot第三天】深入解析YAML语法](https://juejin.cn/post/7055110538631741454)
