@@ -1,3 +1,7 @@
+## 在 cmd 用 javac 编译 .java 时报错： "类 HelloWorld 是公共的, 应在名为 HelloWorld.java 的文件中声明"
+
+FIX: 源文件名应与类名一致
+
 ## 进程已结束，退出代码为 0
 
 1. 添加 web 依赖
@@ -38,14 +42,18 @@ spring.devtools.restart.enabled=true
 ---
 
 以下三种选一个试下
-✅ 配置 idea: 右键应用 run 编辑 -> 运行/调试配置窗口 修改选项 执行“更新”操作时 -> 更新类和资源（热交换类，如果失败则更新触发器文件（编辑器失焦就重启服务））。
-✅ 用快捷键 ctrl f9 重新编译
-✅ 在pom.xml中加上热部署插件
-```xml :pom.xml
-<dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-devtools</artifactId>
-    <optional>true</optional>
-   <scope>true</scope>
-</dependency>
-```
+
+- ✅ 配置 idea: 右键应用 run 编辑 -> 运行/调试配置窗口 修改选项 执行“更新”操作时 -> 更新类和资源（热交换类，如果失败则更新触发器文件（编辑器失焦就重启服务））。
+
+- ✅ 用快捷键 ctrl f9 重新编译
+
+- ✅ 在pom.xml中加上热部署插件
+
+    ```xml :pom.xml
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-devtools</artifactId>
+        <optional>true</optional>
+    <scope>true</scope>
+    </dependency>
+    ```
